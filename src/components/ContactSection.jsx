@@ -1,6 +1,8 @@
 import { useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { FiMail, FiPhone, FiLinkedin, FiInstagram, FiGithub, FiSend, FiMapPin } from 'react-icons/fi'
+import { FiMail, FiPhone, FiLinkedin, FiInstagram, FiGithub, FiSend, FiMapPin, FiCheckCircle, FiAlertCircle } from 'react-icons/fi'
+
+const WEB3FORMS_KEY = 'fd73f397-ec52-4c60-ad73-859f3b445852'
 
 const contactInfo = [
   { icon: FiMail, label: 'E-posta', value: 'ferhatbaydir7@gmail.com', href: 'mailto:ferhatbaydir7@gmail.com', color: '#00f0ff' },
@@ -14,26 +16,57 @@ export default function ContactSection() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
   const [formState, setFormState] = useState({ name: '', email: '', message: '' })
-  const [submitted, setSubmitted] = useState(false)
+  const [status, setStatus] = useState('idle') // idle | sending | success | error
+  const [statusMsg, setStatusMsg] = useState('')
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    setSubmitted(true)
-    setTimeout(() => setSubmitted(false), 3000)
-    setFormState({ name: '', email: '', message: '' })
+    setStatus('sending')
+    setStatusMsg('')
+
+    try {
+      const formData = new FormData()
+      formData.append('access_key', WEB3FORMS_KEY)
+      formData.append('name', formState.name)
+      formData.append('email', formState.email)
+      formData.append('message', formState.message)
+      formData.append('subject', `Portfolio İletişim: ${formState.name}`)
+      formData.append('from_name', 'Ferhat Portfolio')
+
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData,
+      })
+
+      const data = await res.json()
+
+      if (data.success) {
+        setStatus('success')
+        setStatusMsg('Mesajın gönderildi! En kısa sürede dönüş yapacağım.')
+        setFormState({ name: '', email: '', message: '' })
+        setTimeout(() => setStatus('idle'), 5000)
+      } else {
+        setStatus('error')
+        setStatusMsg('Bir hata oluştu. Lütfen tekrar deneyin.')
+        setTimeout(() => setStatus('idle'), 4000)
+      }
+    } catch {
+      setStatus('error')
+      setStatusMsg('Bağlantı hatası. Lütfen tekrar deneyin.')
+      setTimeout(() => setStatus('idle'), 4000)
+    }
   }
 
   return (
     <section id="contact" className="relative py-32 px-6" ref={ref}>
       <div className="max-w-6xl mx-auto">
-        {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
           className="text-center mb-20"
         >
-          <span className="font-mono text-xs tracking-[0.3em] text-neon-cyan/60 uppercase">06 — İletişim</span>
+          <span className="font-mono text-xs tracking-[0.3em] text-neon-cyan/60 uppercase">07 — İletişim</span>
           <h2 className="mt-4 font-display text-4xl md:text-5xl font-bold text-white">
             Benimle İletişime Geç
           </h2>
@@ -100,6 +133,9 @@ export default function ContactSection() {
             className="lg:col-span-3"
           >
             <form onSubmit={handleSubmit} className="glass-card rounded-2xl p-8">
+              {/* Honeypot for spam bots */}
+              <input type="checkbox" name="botcheck" className="hidden" style={{ display: 'none' }} />
+
               <div className="grid sm:grid-cols-2 gap-5 mb-5">
                 <div>
                   <label htmlFor="name" className="block text-xs font-mono text-gray-400 mb-2 uppercase tracking-wider">
@@ -108,10 +144,12 @@ export default function ContactSection() {
                   <input
                     id="name"
                     type="text"
+                    name="name"
                     value={formState.name}
                     onChange={(e) => setFormState(s => ({ ...s, name: e.target.value }))}
                     required
-                    className="w-full px-4 py-3 rounded-lg bg-dark-800/80 border border-gray-800 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-neon-cyan/40 focus:shadow-[0_0_10px_rgba(0,240,255,0.1)] transition-all"
+                    disabled={status === 'sending'}
+                    className="w-full px-4 py-3 rounded-lg bg-dark-800/80 border border-gray-800 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-neon-cyan/40 focus:shadow-[0_0_10px_rgba(0,240,255,0.1)] transition-all disabled:opacity-50"
                     placeholder="Adınız"
                   />
                 </div>
@@ -122,10 +160,12 @@ export default function ContactSection() {
                   <input
                     id="email"
                     type="email"
+                    name="email"
                     value={formState.email}
                     onChange={(e) => setFormState(s => ({ ...s, email: e.target.value }))}
                     required
-                    className="w-full px-4 py-3 rounded-lg bg-dark-800/80 border border-gray-800 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-neon-cyan/40 focus:shadow-[0_0_10px_rgba(0,240,255,0.1)] transition-all"
+                    disabled={status === 'sending'}
+                    className="w-full px-4 py-3 rounded-lg bg-dark-800/80 border border-gray-800 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-neon-cyan/40 focus:shadow-[0_0_10px_rgba(0,240,255,0.1)] transition-all disabled:opacity-50"
                     placeholder="mail@ornek.com"
                   />
                 </div>
@@ -137,24 +177,35 @@ export default function ContactSection() {
                 </label>
                 <textarea
                   id="message"
+                  name="message"
                   rows={5}
                   value={formState.message}
                   onChange={(e) => setFormState(s => ({ ...s, message: e.target.value }))}
                   required
-                  className="w-full px-4 py-3 rounded-lg bg-dark-800/80 border border-gray-800 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-neon-cyan/40 focus:shadow-[0_0_10px_rgba(0,240,255,0.1)] transition-all resize-none"
+                  disabled={status === 'sending'}
+                  className="w-full px-4 py-3 rounded-lg bg-dark-800/80 border border-gray-800 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-neon-cyan/40 focus:shadow-[0_0_10px_rgba(0,240,255,0.1)] transition-all resize-none disabled:opacity-50"
                   placeholder="Mesajınızı yazın..."
                 />
               </div>
 
               <button
                 type="submit"
-                className="group relative w-full px-8 py-3.5 rounded-lg font-semibold text-sm overflow-hidden transition-all duration-300"
+                disabled={status === 'sending'}
+                className="group relative w-full px-8 py-3.5 rounded-lg font-semibold text-sm overflow-hidden transition-all duration-300 disabled:opacity-70"
               >
                 <span className="absolute inset-0 bg-gradient-to-r from-neon-cyan to-neon-purple opacity-80 group-hover:opacity-100 transition-opacity" />
                 <span className="absolute inset-[1px] bg-dark-900 rounded-[7px] group-hover:bg-dark-900/80 transition-colors" />
                 <span className="relative flex items-center justify-center gap-2 text-white">
-                  {submitted ? (
-                    'Mesaj Gönderildi! ✓'
+                  {status === 'sending' ? (
+                    <>
+                      <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      Gönderiliyor...
+                    </>
+                  ) : status === 'success' ? (
+                    <>
+                      <FiCheckCircle size={16} className="text-green-400" />
+                      Gönderildi!
+                    </>
                   ) : (
                     <>
                       Gönder
@@ -164,9 +215,19 @@ export default function ContactSection() {
                 </span>
               </button>
 
-              <p className="mt-4 text-[10px] text-gray-600 text-center font-mono">
-                * Bu form henüz bir backend'e bağlı değil. Doğrudan e-posta ile iletişime geçebilirsiniz.
-              </p>
+              {/* Status message */}
+              {statusMsg && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className={`mt-4 flex items-center justify-center gap-2 text-sm font-mono ${
+                    status === 'success' ? 'text-green-400' : 'text-red-400'
+                  }`}
+                >
+                  {status === 'success' ? <FiCheckCircle size={14} /> : <FiAlertCircle size={14} />}
+                  {statusMsg}
+                </motion.div>
+              )}
             </form>
           </motion.div>
         </div>
