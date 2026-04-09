@@ -13,11 +13,36 @@ async function loadImageAsBase64(url) {
   })
 }
 
+async function loadFontAsBase64(url) {
+  const res = await fetch(url)
+  const buf = await res.arrayBuffer()
+  const bytes = new Uint8Array(buf)
+  let binary = ''
+  for (let i = 0; i < bytes.length; i++) {
+    binary += String.fromCharCode(bytes[i])
+  }
+  return btoa(binary)
+}
+
+async function registerFonts(doc) {
+  const [regularB64, boldB64] = await Promise.all([
+    loadFontAsBase64('/fonts/Roboto-Regular.ttf'),
+    loadFontAsBase64('/fonts/Roboto-Bold.ttf'),
+  ])
+
+  doc.addFileToVFS('Roboto-Regular.ttf', regularB64)
+  doc.addFont('Roboto-Regular.ttf', 'Roboto', 'normal')
+
+  doc.addFileToVFS('Roboto-Bold.ttf', boldB64)
+  doc.addFont('Roboto-Bold.ttf', 'Roboto', 'bold')
+}
+
 function drawRoundedRect(doc, x, y, w, h, r) {
   doc.roundedRect(x, y, w, h, r, r, 'F')
 }
 
 async function generateCV(doc) {
+  await registerFonts(doc)
   const W = 210
   const H = 297
   const margin = 16
@@ -68,14 +93,14 @@ async function generateCV(doc) {
     doc.circle(cx, 39, 22, 'F')
     doc.setFontSize(18)
     doc.setTextColor(...white)
-    doc.setFont('helvetica', 'bold')
+    doc.setFont('Roboto', 'bold')
     doc.text('FB', cx, 43, { align: 'center' })
   }
 
   let sideY = 68
 
   // --- NAME ON SIDEBAR ---
-  doc.setFont('helvetica', 'bold')
+  doc.setFont('Roboto', 'bold')
   doc.setFontSize(13)
   doc.setTextColor(...white)
   doc.text('FERHAT', sidebarW / 2, sideY, { align: 'center' })
@@ -84,7 +109,7 @@ async function generateCV(doc) {
   sideY += 5
 
   // Title
-  doc.setFont('helvetica', 'normal')
+  doc.setFont('Roboto', 'normal')
   doc.setFontSize(6.5)
   doc.setTextColor(...cyan)
   doc.text('Computer Engineering Student', sidebarW / 2, sideY, { align: 'center' })
@@ -99,7 +124,7 @@ async function generateCV(doc) {
 
   // --- SIDEBAR SECTIONS ---
   function sidebarSectionTitle(title) {
-    doc.setFont('helvetica', 'bold')
+    doc.setFont('Roboto', 'bold')
     doc.setFontSize(8)
     doc.setTextColor(...cyan)
     doc.text(title, 10, sideY)
@@ -110,7 +135,7 @@ async function generateCV(doc) {
   }
 
   function sidebarItem(label, value) {
-    doc.setFont('helvetica', 'normal')
+    doc.setFont('Roboto', 'normal')
     doc.setFontSize(6.5)
     doc.setTextColor(...lightGray)
     doc.text(label, 10, sideY)
@@ -132,7 +157,7 @@ async function generateCV(doc) {
 
   // Languages
   sidebarSectionTitle('DİLLER')
-  doc.setFont('helvetica', 'normal')
+  doc.setFont('Roboto', 'normal')
   doc.setFontSize(7)
   doc.setTextColor(...white)
   doc.text('Türkçe — Anadil', 10, sideY)
@@ -144,7 +169,7 @@ async function generateCV(doc) {
   sidebarSectionTitle('SOFT SKILLS')
   const softSkills = ['Hızlı Öğrenme', 'Problem Çözme', 'Takım Çalışması', 'Sürekli Gelişim', 'Müşteri Odaklı']
   softSkills.forEach((s) => {
-    doc.setFont('helvetica', 'normal')
+    doc.setFont('Roboto', 'normal')
     doc.setFontSize(6.5)
     doc.setTextColor(...white)
     doc.setFillColor(...cyan)
@@ -159,7 +184,7 @@ async function generateCV(doc) {
   let mainY = 18
 
   function mainSectionTitle(title) {
-    doc.setFont('helvetica', 'bold')
+    doc.setFont('Roboto', 'bold')
     doc.setFontSize(11)
     doc.setTextColor(...cyan)
     doc.text(title, mainX, mainY)
@@ -173,7 +198,7 @@ async function generateCV(doc) {
 
   // --- ABOUT ---
   mainSectionTitle('HAKKIMDA')
-  doc.setFont('helvetica', 'normal')
+  doc.setFont('Roboto', 'normal')
   doc.setFontSize(7.5)
   doc.setTextColor(...gray)
   const aboutText = 'Kod yazmayı, veri analiz etmeyi ve dijital dünyada iz bırakmayı seviyorum. Sadece yazılım geliştirmekle kalmıyor, aynı zamanda dijital pazarlama, yapay zeka araçları ve güncel teknolojileri aktif olarak takip edip projelerime entegre ediyorum. Sürekli öğrenen, kendini güncelleyen bir mühendis adayıyım. Hedefim: teknolojiyle gerçek dünya problemlerini çözmek.'
@@ -185,12 +210,12 @@ async function generateCV(doc) {
   mainSectionTitle('İŞ DENEYİMİ')
 
   function addExperience(title, company, duration, desc) {
-    doc.setFont('helvetica', 'bold')
+    doc.setFont('Roboto', 'bold')
     doc.setFontSize(8)
     doc.setTextColor(...white)
     doc.text(title, mainX, mainY)
     mainY += 4
-    doc.setFont('helvetica', 'normal')
+    doc.setFont('Roboto', 'normal')
     doc.setFontSize(7)
     doc.setTextColor(...cyan)
     doc.text(`${company}  |  ${duration}`, mainX, mainY)
@@ -218,12 +243,12 @@ async function generateCV(doc) {
 
   // --- EDUCATION ---
   mainSectionTitle('EĞİTİM')
-  doc.setFont('helvetica', 'bold')
+  doc.setFont('Roboto', 'bold')
   doc.setFontSize(8)
   doc.setTextColor(...white)
   doc.text('Bilgisayar Mühendisliği (3. Sınıf)', mainX, mainY)
   mainY += 4
-  doc.setFont('helvetica', 'normal')
+  doc.setFont('Roboto', 'normal')
   doc.setFontSize(7)
   doc.setTextColor(...cyan)
   doc.text('Manisa Celal Bayar Üniversitesi  |  Devam Ediyor', mainX, mainY)
@@ -237,11 +262,11 @@ async function generateCV(doc) {
   mainSectionTitle('TEKNİK BECERİLER')
 
   function skillRow(category, skills) {
-    doc.setFont('helvetica', 'bold')
+    doc.setFont('Roboto', 'bold')
     doc.setFontSize(7)
     doc.setTextColor(...purple)
     doc.text(category + ':', mainX, mainY)
-    doc.setFont('helvetica', 'normal')
+    doc.setFont('Roboto', 'normal')
     doc.setTextColor(...gray)
     const skillText = skills.join(', ')
     const skillLines = doc.splitTextToSize(skillText, mainW - 2)
@@ -261,11 +286,11 @@ async function generateCV(doc) {
   mainSectionTitle('ÖNE ÇIKAN PROJELER')
 
   function projectRow(name, tech, desc) {
-    doc.setFont('helvetica', 'bold')
+    doc.setFont('Roboto', 'bold')
     doc.setFontSize(7)
     doc.setTextColor(...white)
     doc.text(name, mainX, mainY)
-    doc.setFont('helvetica', 'normal')
+    doc.setFont('Roboto', 'normal')
     doc.setFontSize(6)
     doc.setTextColor(...cyan)
     doc.text(`  [${tech}]`, mainX + doc.getTextWidth(name) + 1, mainY)
@@ -297,7 +322,7 @@ async function generateCV(doc) {
     certs.forEach((c) => {
       doc.setFillColor(...cyan)
       doc.circle(mainX + 1.5, mainY - 1.2, 0.7, 'F')
-      doc.setFont('helvetica', 'normal')
+      doc.setFont('Roboto', 'normal')
       doc.setFontSize(6.8)
       doc.setTextColor(...gray)
       doc.text(c, mainX + 5, mainY)
@@ -313,7 +338,7 @@ async function generateCV(doc) {
 
   doc.setFontSize(5)
   doc.setTextColor(...darkBg)
-  doc.setFont('helvetica', 'normal')
+  doc.setFont('Roboto', 'normal')
   doc.text('ferhatbaydir7@gmail.com  |  github.com/Ferhtbydr269  |  linkedin.com/in/ferhat-baydir', W / 2, H - 0.8, { align: 'center' })
 }
 
