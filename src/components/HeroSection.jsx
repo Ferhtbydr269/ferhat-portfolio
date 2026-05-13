@@ -6,9 +6,9 @@ import CVGenerator from './CVGenerator'
 const Scene3D = lazy(() => import('./Scene3D'))
 
 const titles = [
+  'Network Engineer Intern Candidate',
   'Full-Stack Developer',
-  'Data Analyst in Progress',
-  'Digital Marketing Expert',
+  'Network Automation Enthusiast',
   'Computer Engineering Student',
   'Problem Solver',
 ]
@@ -121,8 +121,8 @@ export default function HeroSection({ ready }) {
           transition={{ delay: d + 0.7, duration: 0.5 }}
           className="mt-6 text-gray-400 max-w-2xl mx-auto leading-relaxed text-sm md:text-base"
         >
-          Kod yazmayı, veri analiz etmeyi ve dijital dünyada iz bırakmayı seviyorum.
-          Teknolojiyle gerçek dünya problemlerini çözüyorum.
+          Ağ altyapısı, yönlendirme protokolleri ve network otomasyonuna odaklanıyorum.
+          Yazılım geliştirme birikimimi kurumsal IT/Network tarafına taşıyorum.
         </motion.p>
 
         <motion.div

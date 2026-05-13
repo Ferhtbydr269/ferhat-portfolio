@@ -1,12 +1,12 @@
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { FiCode, FiDatabase, FiTrendingUp, FiGlobe } from 'react-icons/fi'
+import { FiWifi, FiCode, FiCpu, FiShield } from 'react-icons/fi'
 
 const highlights = [
+  { icon: FiWifi, label: 'Network', desc: 'Altyapı & Yönlendirme' },
+  { icon: FiCpu, label: 'Otomasyon', desc: 'Python + Netmiko' },
   { icon: FiCode, label: 'Full-Stack', desc: 'Web Geliştirme' },
-  { icon: FiDatabase, label: 'Data', desc: 'Veri Analizi' },
-  { icon: FiTrendingUp, label: 'Ads', desc: 'Dijital Pazarlama' },
-  { icon: FiGlobe, label: 'AI', desc: 'Yapay Zeka Araçları' },
+  { icon: FiShield, label: 'Güvenlik', desc: 'Ağ & Siber Güvenlik' },
 ]
 
 export default function AboutSection() {
@@ -78,7 +78,7 @@ export default function AboutSection() {
               >
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                  <span className="text-xs font-mono text-neon-cyan">Açık İşe</span>
+                  <span className="text-xs font-mono text-neon-cyan">Network Stajı Arıyor</span>
                 </div>
               </motion.div>
             </div>
@@ -92,22 +92,23 @@ export default function AboutSection() {
             className="md:col-span-3"
           >
             <p className="text-gray-300 leading-relaxed text-base md:text-lg">
-              Ben <span className="text-neon-cyan font-semibold">Ferhat</span>. Kod yazmayı, veri analiz etmeyi ve 
-              dijital dünyada iz bırakmayı seviyorum. Sadece yazılım geliştirmekle kalmıyor, aynı zamanda 
-              <span className="text-neon-purple font-semibold"> dijital pazarlama</span>, 
-              <span className="text-neon-pink font-semibold"> yapay zeka araçları</span> ve güncel teknolojileri 
-              aktif olarak takip edip projelerime entegre ediyorum.
+              Ben <span className="text-neon-cyan font-semibold">Ferhat</span>. Ağ altyapısı, yönlendirme 
+              protokolleri ve 
+              <span className="text-neon-purple font-semibold"> network otomasyonu</span> üzerine 
+              odaklanıyorum. Yazılım geliştirme birikimimi — özellikle Python — 
+              <span className="text-neon-pink font-semibold"> Netmiko/Paramiko</span> aracılığıyla 
+              kurumsal IT/Network tarafına taşıyorum.
             </p>
             
             <p className="mt-4 text-gray-400 leading-relaxed">
-              Sürekli öğrenen, kendini güncelleyen bir mühendis adayıyım. 
-              Hedefim: teknolojiyle gerçek dünya problemlerini çözmek.
+              TCP/IP, VLAN, OSPF ve Cisco IOS üzerinde Packet Tracer ile aktif lab çalışmaları yürütüyorum.
+              Hedefim: kurumsal bir Network ekibinde stajyer olarak gerçek altyapıya katkı sağlamak.
             </p>
 
             <p className="mt-4 text-gray-400 leading-relaxed">
               <span className="text-neon-cyan">Manisa Celal Bayar Üniversitesi</span>'nde 
-              Bilgisayar Mühendisliği 3. sınıf öğrencisiyim. Hem teknik yazılım tarafında hem de 
-              iş dünyası (dijital pazarlama) tarafında aktif deneyimim var.
+              Bilgisayar Mühendisliği 3. sınıf öğrencisiyim. Full-Stack ve Python geçmişim, 
+              network automation için güçlü bir zemin oluşturuyor.
             </p>
 
             {/* Highlight cards */}

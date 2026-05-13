@@ -2,10 +2,36 @@ import { useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { 
   FiServer, FiLayout, FiBarChart2, FiTarget, 
-  FiTool, FiUsers 
+  FiTool, FiUsers, FiWifi, FiTerminal
 } from 'react-icons/fi'
 
 const skillCategories = [
+  {
+    title: 'Network & Altyapı',
+    icon: FiWifi,
+    color: '#00f0ff',
+    skills: [
+      { name: 'TCP/IP & OSI Modeli', level: 75 },
+      { name: 'VLAN / STP / Inter-VLAN', level: 65 },
+      { name: 'OSPF / EIGRP / RIP', level: 60 },
+      { name: 'Cisco IOS CLI', level: 65 },
+      { name: 'Wireshark / Nmap', level: 65 },
+      { name: 'Linux Ağ Yönetimi', level: 60 },
+    ]
+  },
+  {
+    title: 'Network Otomasyon',
+    icon: FiTerminal,
+    color: '#a855f7',
+    skills: [
+      { name: 'Python (Netmiko)', level: 65 },
+      { name: 'Python (Paramiko)', level: 60 },
+      { name: 'Bash / PowerShell', level: 55 },
+      { name: 'Packet Tracer / GNS3', level: 70 },
+      { name: 'pfSense / Firewall', level: 50 },
+      { name: 'DHCP / DNS / NAT', level: 65 },
+    ]
+  },
   {
     title: 'Backend & Frameworks',
     icon: FiServer,
