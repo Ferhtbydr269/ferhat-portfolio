@@ -1,8 +1,35 @@
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { FiAward, FiExternalLink, FiShield, FiCpu, FiCode, FiStar } from 'react-icons/fi'
+import { FiAward, FiExternalLink, FiShield, FiCpu, FiCode, FiStar, FiWifi, FiActivity } from 'react-icons/fi'
 
 const certificates = [
+  {
+    title: 'Cisco CCNA: Introduction to Networks',
+    subtitle: 'Devam Ediyor · Haz. 2026 Hedef',
+    issuer: 'Cisco Networking Academy',
+    icon: FiWifi,
+    color: '#00f0ff',
+    file: null,
+    inProgress: true,
+  },
+  {
+    title: 'Fortinet NSE 1 – 2 – 3',
+    subtitle: 'Devam Ediyor',
+    issuer: 'Fortinet Training Institute',
+    icon: FiShield,
+    color: '#f43f5e',
+    file: null,
+    inProgress: true,
+  },
+  {
+    title: 'Huawei HCIA-Datacom',
+    subtitle: 'Hedefleniyor · 2026',
+    issuer: 'Huawei Talent Online',
+    icon: FiActivity,
+    color: '#34d399',
+    file: null,
+    inProgress: true,
+  },
   {
     title: 'TEKNOFEST Yapay Zeka Film Yarışması',
     subtitle: 'Finalist',
@@ -94,16 +121,18 @@ export default function CertificatesSection() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {certificates.map((cert, i) => {
             const Icon = cert.icon
+            const Wrapper = cert.file ? motion.a : motion.div
+            const wrapperProps = cert.file 
+              ? { href: cert.file, target: '_blank', rel: 'noopener noreferrer' }
+              : {}
             return (
-              <motion.a
+              <Wrapper
                 key={cert.title}
-                href={cert.file}
-                target="_blank"
-                rel="noopener noreferrer"
+                {...wrapperProps}
                 initial={{ opacity: 0, y: 30 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ delay: i * 0.08, duration: 0.5 }}
-                className="group glass-card rounded-2xl p-5 relative overflow-hidden block"
+                className={`group glass-card rounded-2xl p-5 relative overflow-hidden block ${cert.inProgress ? 'border border-dashed border-neon-cyan/20' : ''}`}
               >
                 {/* Top accent */}
                 <div 
@@ -125,25 +154,35 @@ export default function CertificatesSection() {
                 </h3>
 
                 {/* Subtitle */}
-                <p 
-                  className="text-xs font-mono mb-3"
-                  style={{ color: cert.color }}
-                >
-                  {cert.subtitle}
-                </p>
+                {!cert.inProgress && (
+                  <p 
+                    className="text-xs font-mono mb-3"
+                    style={{ color: cert.color }}
+                  >
+                    {cert.subtitle}
+                  </p>
+                )}
+                {cert.inProgress && <div className="mb-3" />}
 
                 {/* View link */}
-                <div className="flex items-center gap-1 text-[10px] text-gray-500 group-hover:text-gray-300 transition-colors">
-                  <FiExternalLink size={10} />
-                  <span>Sertifikayı Gör</span>
-                </div>
+                {cert.inProgress ? (
+                  <div className="flex items-center gap-1 text-[10px] font-mono" style={{ color: cert.color }}>
+                    <span className="w-1.5 h-1.5 rounded-full animate-pulse inline-block" style={{ background: cert.color }} />
+                    <span>{cert.subtitle}</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-1 text-[10px] text-gray-500 group-hover:text-gray-300 transition-colors">
+                    <FiExternalLink size={10} />
+                    <span>Sertifikayı Gör</span>
+                  </div>
+                )}
 
                 {/* Hover glow */}
                 <div 
                   className="absolute -bottom-8 -right-8 w-24 h-24 rounded-full opacity-0 group-hover:opacity-10 transition-opacity duration-500"
                   style={{ background: cert.color }}
                 />
-              </motion.a>
+              </Wrapper>
             )
           })}
         </div>

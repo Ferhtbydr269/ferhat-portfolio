@@ -4,6 +4,36 @@ import { FiGithub, FiExternalLink, FiFolder } from 'react-icons/fi'
 
 const projects = [
   {
+    name: 'Kurumsal Ağ Tasarımı',
+    tech: 'Cisco Packet Tracer',
+    tags: ['Network', 'VLAN', 'OSPF'],
+    desc: '3 şubeli kurumsal ağ — VLAN segmentasyonu, inter-VLAN routing, OSPF ve site-to-site VPN simülasyonu. ACL politikaları + IP planı dokümantasyonu.',
+    color: '#00f0ff',
+    category: 'network',
+    github: 'https://github.com/Ferhtbydar269',
+    isNetworkLab: true,
+  },
+  {
+    name: 'Network Automation Script',
+    tech: 'Python + Netmiko',
+    tags: ['Network', 'Python', 'Automation'],
+    desc: 'Cisco cihazlarına SSH üzerinden toplu VLAN ve interface konfigürasyonu dağıtan Python aracı. Hata yönetimi ve otomatik log kaydı içeriyor.',
+    color: '#a855f7',
+    category: 'network',
+    github: 'https://github.com/Ferhtbydar269',
+    isNetworkLab: true,
+  },
+  {
+    name: 'Wireshark Trafik Analizi',
+    tech: 'Wireshark + Python',
+    tags: ['Network', 'Security', 'Analysis'],
+    desc: 'Yerel ağ trafiğini Wireshark ile yakalama ve analiz etme; ARP, DNS, HTTP paketlerini inceleme ve anormallik raporu.',
+    color: '#34d399',
+    category: 'network',
+    github: 'https://github.com/Ferhtbydar269',
+    isNetworkLab: true,
+  },
+  {
     name: 'bursa_pinar_temizlik',
     tech: 'TypeScript',
     tags: ['TypeScript', 'Web'],
@@ -103,6 +133,7 @@ const projects = [
 
 const filters = [
   { key: 'all', label: 'Tümü' },
+  { key: 'network', label: '🌐 Network' },
   { key: 'python', label: 'Python' },
   { key: 'javascript', label: 'JavaScript' },
   { key: 'typescript', label: 'TypeScript' },
@@ -182,8 +213,13 @@ function ProjectCard({ project, index }) {
           </div>
 
           {/* Title */}
-          <h3 className="text-base font-bold text-white mb-2 group-hover:text-neon-cyan transition-colors">
+          <h3 className="text-base font-bold text-white mb-2 group-hover:text-neon-cyan transition-colors flex items-center gap-2 flex-wrap">
             {project.name.replace(/_/g, ' ')}
+            {project.isNetworkLab && (
+              <span className="text-[9px] font-mono px-1.5 py-0.5 rounded border border-neon-cyan/40 text-neon-cyan/70 bg-neon-cyan/5">
+                NET LAB
+              </span>
+            )}
           </h3>
 
           {/* Description */}
