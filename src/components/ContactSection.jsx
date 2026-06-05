@@ -101,7 +101,7 @@ export default function ContactSection() {
           >
             <span className="absolute inset-0 bg-gradient-to-r from-neon-cyan to-neon-purple opacity-80 group-hover:opacity-100 transition-opacity" />
             <span className="absolute inset-[1px] bg-dark-900 rounded-[11px] group-hover:bg-dark-900/80 transition-colors" />
-            <span className="relative flex items-center gap-2 text-white">
+            <span className="relative flex items-center gap-2 text-white" style={{ color: '#fff' }}>
               <FiSend size={16} />
               Staj Teklifi Gönder
             </span>

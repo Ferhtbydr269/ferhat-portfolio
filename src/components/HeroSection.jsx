@@ -135,7 +135,7 @@ export default function HeroSection({ ready }) {
           >
             <span className="absolute inset-0 bg-gradient-to-r from-neon-cyan to-neon-purple opacity-80 group-hover:opacity-100 transition-opacity" />
             <span className="absolute inset-[1px] bg-dark-900 rounded-[7px] group-hover:bg-dark-900/80 transition-colors" />
-            <span className="relative text-white">Projelerimi Gör</span>
+            <span className="relative text-white" style={{ color: '#fff' }}>Projelerimi Gör</span>
           </button>
 
           <a
