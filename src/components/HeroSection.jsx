@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef, lazy, Suspense } from 'react'
 import { motion } from 'framer-motion'
 import { FiGithub, FiLinkedin, FiInstagram, FiChevronDown } from 'react-icons/fi'
-import CVGenerator from './CVGenerator'
 
 const Scene3D = lazy(() => import('./Scene3D'))
 
@@ -54,7 +53,6 @@ function TypewriterText({ start }) {
 
 export default function HeroSection({ ready }) {
   const [isMobile, setIsMobile] = useState(false)
-  const [showCV, setShowCV] = useState(false)
 
   useEffect(() => {
     setIsMobile(window.innerWidth < 768)
@@ -140,12 +138,13 @@ export default function HeroSection({ ready }) {
             <span className="relative text-white">Projelerimi Gör</span>
           </button>
 
-          <button
-            onClick={() => setShowCV(true)}
-            className="group relative px-8 py-3 rounded-lg font-semibold text-sm border border-neon-cyan/30 text-neon-cyan hover:border-neon-cyan/60 hover:shadow-[0_0_20px_rgba(0,240,255,0.15)] transition-all duration-300"
+          <a
+            href="/Ferhat_Baydir_CV_01.pdf"
+            download="Ferhat_Baydir_CV.pdf"
+            className="group relative px-8 py-3 rounded-lg font-semibold text-sm border border-neon-cyan/30 text-neon-cyan hover:border-neon-cyan/60 hover:shadow-[0_0_20px_rgba(0,240,255,0.15)] transition-all duration-300 inline-flex items-center"
           >
             CV İndir ↓
-          </button>
+          </a>
         </motion.div>
 
         <motion.div
@@ -189,8 +188,7 @@ export default function HeroSection({ ready }) {
 
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-dark-900 to-transparent z-[5]" />
 
-      {/* CV Generator modal */}
-      {showCV && <CVGenerator onClose={() => setShowCV(false)} />}
+
     </section>
   )
 }
