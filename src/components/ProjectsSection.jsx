@@ -10,7 +10,7 @@ const projects = [
     desc: '3 şubeli kurumsal ağ — VLAN segmentasyonu, inter-VLAN routing, OSPF ve site-to-site VPN simülasyonu. ACL politikaları + IP planı dokümantasyonu.',
     color: '#00f0ff',
     category: 'network',
-    github: 'https://github.com/Ferhtbydar269',
+    github: 'https://github.com/Ferhtbydr269',
     isNetworkLab: true,
   },
   {
@@ -20,7 +20,7 @@ const projects = [
     desc: 'Cisco cihazlarına SSH üzerinden toplu VLAN ve interface konfigürasyonu dağıtan Python aracı. Hata yönetimi ve otomatik log kaydı içeriyor.',
     color: '#a855f7',
     category: 'network',
-    github: 'https://github.com/Ferhtbydar269',
+    github: 'https://github.com/Ferhtbydr269',
     isNetworkLab: true,
   },
   {
@@ -30,7 +30,7 @@ const projects = [
     desc: 'Yerel ağ trafiğini Wireshark ile yakalama ve analiz etme; ARP, DNS, HTTP paketlerini inceleme ve anormallik raporu.',
     color: '#34d399',
     category: 'network',
-    github: 'https://github.com/Ferhtbydar269',
+    github: 'https://github.com/Ferhtbydr269',
     isNetworkLab: true,
   },
   {

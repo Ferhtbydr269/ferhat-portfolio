@@ -6,8 +6,8 @@ const links = [
   {
     icon: FiMail,
     label: 'E-posta',
-    value: 'ferhatbaydir@outlook.com',
-    href: 'mailto:ferhatbaydir@outlook.com',
+    value: 'ferhatbaydir7@gmail.com',
+    href: 'mailto:ferhatbaydir7@gmail.com',
     color: '#00f0ff',
   },
   {
@@ -20,8 +20,8 @@ const links = [
   {
     icon: FiGithub,
     label: 'GitHub',
-    value: 'github.com/Ferhtbydar269',
-    href: 'https://github.com/Ferhtbydar269',
+    value: 'github.com/Ferhtbydr269',
+    href: 'https://github.com/Ferhtbydr269',
     color: '#f43f5e',
   },
 ]
@@ -96,7 +96,7 @@ export default function ContactSection() {
           className="text-center"
         >
           <a
-            href="mailto:ferhatbaydir@outlook.com"
+            href="mailto:ferhatbaydir7@gmail.com"
             className="group inline-flex items-center gap-3 px-8 py-4 rounded-xl font-semibold text-sm relative overflow-hidden"
           >
             <span className="absolute inset-0 bg-gradient-to-r from-neon-cyan to-neon-purple opacity-80 group-hover:opacity-100 transition-opacity" />
